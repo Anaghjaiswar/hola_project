@@ -25,7 +25,24 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     
     
 class UserProfileSerializer(serializers.ModelSerializer):
+    num_posts = serializers.SerializerMethodField()
+    num_followers = serializers.SerializerMethodField()
+    num_following = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'bio', 'profile_photo', 'background_photo']
-        read_only_fields = ['id', 'username']  
+        fields = [
+            'id', 'username', 'bio', 'profile_photo', 'background_photo',
+            'num_posts', 'num_followers', 'num_following'
+        ]
+        read_only_fields = ['id', 'username', 'num_posts', 'num_followers', 'num_following']
+
+    def get_num_posts(self, obj):
+        return obj.posts.count()
+
+    def get_num_followers(self, obj):
+        return obj.followers.count()
+
+    def get_num_following(self, obj):
+        return obj.following.count()
+ 
