@@ -52,13 +52,19 @@ class PostDetailView(APIView):
 class PostListView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, user_id):
-        user = get_object_or_404(CustomUser, id=user_id)
+    def get(self, request):
         posts = Post.objects.filter(is_public=True).order_by('-created_at')
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
     
-
+    
+class UserPostsView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, user_id):
+        user = get_object_or_404(CustomUser, id=user_id)
+        posts = Post.objects.filter(user=user).order_by('-created_at') 
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
 
 class LikePostAPIView(APIView):
     permission_classes = [IsAuthenticated]
