@@ -7,6 +7,7 @@ from rest_framework.generics import ListCreateAPIView
 from .serializers import PostSerializer, CommentSerializer
 from django.shortcuts import get_object_or_404
 from django.db.models import F
+from accounts.models import CustomUser
 
 # Create a new post
 class PostCreateView(APIView):
@@ -51,7 +52,8 @@ class PostDetailView(APIView):
 class PostListView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request, user_id):
+        user = get_object_or_404(CustomUser, id=user_id)
         posts = Post.objects.filter(is_public=True).order_by('-created_at')
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
