@@ -10,14 +10,21 @@ User = get_user_model()
 
 class CreateChatRoomView(APIView):
     def post(self, request):
+        # Ensure the user is authenticated
+        if not request.user.is_authenticated:
+            return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
+
         user_ids = request.data.get("user_ids", [])
         users = User.objects.filter(id__in=user_ids)
-        chat_room = ChatRoom.objects.create()
+
+        # Create a chat room and set the creator
+        chat_room = ChatRoom.objects.create(created_by=request.user)
         chat_room.participants.set(users)
         chat_room.save()
 
         serializer = ChatRoomSerializer(chat_room)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class MessageListView(APIView):
     def get(self, request, chat_room_id):

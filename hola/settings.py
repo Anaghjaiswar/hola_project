@@ -38,6 +38,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Application definition
 
 INSTALLED_APPS = [
+    # 'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,7 +58,7 @@ INSTALLED_APPS = [
 ]
 
 
-ASGI_APPLICATION = 'hola/hola.asgi.application'
+ASGI_APPLICATION = 'hola.asgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
@@ -91,6 +92,9 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
 
 ROOT_URLCONF = 'hola.urls'
 

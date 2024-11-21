@@ -17,7 +17,7 @@ class Post(models.Model):
     tags = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.created_by.username} - {self.content[:30]}"
+        return f"{self.created_by.get_full_name} - {self.content[:30]}"
     
     def like_count(self):
         return self.likes.count()
@@ -41,7 +41,6 @@ class Like(models.Model):
     def __str__(self):
         return f"{self.user} liked {self.post.content[:30]}"
     
-
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")

@@ -17,7 +17,7 @@ class UserProfileView(APIView):
 
     def get(self, request):
         user = request.user  # Fetch the authenticated user
-        serializer = UserProfileSerializer(user)  # Serialize the user's profile data
+        serializer = UserProfileSerializer(user)  
         return Response(serializer.data)
 
 class ShareProfileView(APIView):
@@ -34,12 +34,12 @@ class EditProfileView(APIView):
 
     def put(self, request):
         user = request.user  # Fetch the authenticated user
-        serializer = UserProfileSerializer(user, data=request.data, partial=True)  # Serialize and validate the data
+        serializer = UserProfileSerializer(user, data=request.data, partial=True) 
 
         if serializer.is_valid():
-            serializer.save()  # Save the updated profile data
-            return Response(serializer.data)  # Return the updated data
-        return Response(serializer.errors, status=400)  # Return validation errors if any
+            serializer.save()  
+            return Response(serializer.data)  
+        return Response(serializer.errors, status=400)  
 
 class FollowUserView(APIView):
     permission_classes = [IsAuthenticated]
