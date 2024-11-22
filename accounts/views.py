@@ -7,6 +7,10 @@ from django.contrib.auth import get_user_model
 from posts.models import Post
 from posts.serializers import PostSerializer
 from django.urls import reverse
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
+from django.contrib.auth import get_user_model
+from .serializers import UserListSerializer
 
 
 # Get the User model
@@ -105,3 +109,10 @@ class PublicProfileView(APIView):
             "user_profile": user_serializer.data,
             "posts": post_serializer.data,
         })
+    
+
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserListSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['username', 'full_name', 'bio']

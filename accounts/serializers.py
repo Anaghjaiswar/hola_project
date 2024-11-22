@@ -46,3 +46,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_num_following(self, obj):
         return obj.following.count()
  
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'full_name', 'bio']
