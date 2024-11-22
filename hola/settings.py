@@ -38,7 +38,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
+    # 'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,11 +64,13 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [('127.0.0.1', 6379)],  # Ensure Redis is running on this host and port
+            'hosts': [('127.0.0.1', 6380)],  # Ensure Redis is running on this host and port
         },
     },
 }
 
+# In settings.py
+ABLY_API_KEY = 'uKSlNw.D_XX-g:N4xrYpq_06gvyhupgAjEibgKAYrHM-SNBNuYKy4VPsw'
 
 
 AUTHENTICATION_BACKENDS = (

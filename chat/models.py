@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 # Get the user model once, outside the class
 User = get_user_model()
@@ -12,15 +13,14 @@ class ChatRoom(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+         return f"Message from {self.sender.get_full_name()} in Room {self.chat_room.id}"
 
 # Model for a Chat Message
 class Message(models.Model):
-    id = models.AutoField(primary_key=True)
-    chat_room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='messages')
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
+    room_name = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Message {self.id} from {self.sender}"
+        return f'{self.user} in {self.room_name}: {self.content}'

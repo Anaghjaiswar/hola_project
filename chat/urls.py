@@ -1,7 +1,7 @@
-from django.urls import path
-from .views import CreateChatRoomView, MessageListView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import MessageAPIView
 
 urlpatterns = [
-    path('create-room/', CreateChatRoomView.as_view(), name='create_chat_room'),
-    path('messages/<int:chat_room_id>/', MessageListView.as_view(), name='message_list'),
+    path('messages/',MessageAPIView.as_view())
 ]
