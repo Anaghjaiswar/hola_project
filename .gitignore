@@ -14,7 +14,7 @@ venv/
 *.py[cod]
 db.sqlite3
 /static/
-/media/
+# /media/
 
 # Environment variables
 .env
