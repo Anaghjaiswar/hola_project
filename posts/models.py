@@ -17,7 +17,7 @@ class Post(models.Model):
     tags = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.created_by.get_full_name} - {self.content[:30]}"
+        return f"{self.created_by.full_name} - {self.content[:30]}"
     
     def like_count(self):
         return self.likes.count()
