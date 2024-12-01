@@ -15,6 +15,7 @@ from decouple import config
 import os
 import dj_database_url
 import environ
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,6 +63,8 @@ INSTALLED_APPS = [
 
 ASGI_APPLICATION = 'hola.asgi.application'
 
+load_dotenv()
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -70,6 +73,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+print(f"Redis URL: {os.getenv('REDIS_URL')}")
+
 
 # In settings.py
 # ABLY_API_KEY = 'uKSlNw.D_XX-g:N4xrYpq_06gvyhupgAjEibgKAYrHM-SNBNuYKy4VPsw'
