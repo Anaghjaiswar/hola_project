@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-
+from .models import LoginActivity
 User = get_user_model()
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -51,3 +51,8 @@ class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'full_name', 'bio']
+
+class LoginActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoginActivity
+        fields = ['ip_address', 'user_agent', 'timestamp']

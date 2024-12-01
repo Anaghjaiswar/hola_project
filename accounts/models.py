@@ -22,3 +22,13 @@ class CustomUser(AbstractUser):
     
     def get_full_name(self):
         return self.full_name or self.username 
+
+
+class LoginActivity(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="login_activities")
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(blank=True, null=True)  # Stores device/browser info
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.timestamp}"

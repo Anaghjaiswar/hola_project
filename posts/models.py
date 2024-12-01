@@ -15,6 +15,7 @@ class Post(models.Model):
     likes_count = models.IntegerField(default=0)
     comments_count = models.IntegerField(default=0)
     tags = models.CharField(max_length=255, null=True, blank=True)
+    saved_by = models.ManyToManyField(User, related_name="saved_posts", blank=True)
 
     def __str__(self):
         return f"{self.created_by.full_name} - {self.content[:30]}"

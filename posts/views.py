@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Post, Like, Comment, CommentLike
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 from .serializers import PostSerializer, CommentSerializer
 from django.shortcuts import get_object_or_404
 from django.db.models import F
@@ -188,3 +188,32 @@ class CommentDeleteAPIView(APIView):
             {"message": "Comment deleted successfully."},
             status=status.HTTP_200_OK
         )
+    
+
+class ToggleSavePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
+            return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if post.saved_by.filter(id=request.user.id).exists():
+            # If the post is already saved, unsave it
+            post.saved_by.remove(request.user)
+            saved = False
+        else:
+            # Save the post
+            post.saved_by.add(request.user)
+            saved = True
+
+        return Response({"id": post.id, "saved": saved}, status=status.HTTP_200_OK)
+    
+class SavedPostListView(ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Return posts saved by the current user
+        return Post.objects.filter(saved_by=self.request.user)

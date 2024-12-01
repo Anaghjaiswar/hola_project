@@ -86,7 +86,6 @@ class ForgotPasswordView(APIView):
             expired_at=timezone.now() + timedelta(minutes=10)  # OTP expires in 10 minutes
         )
         
-        # Send OTP to email (you'll need to configure your email backend)
         send_mail(
             'Password Reset OTP',
             f'Your OTP for password reset is: {otp.otp}',

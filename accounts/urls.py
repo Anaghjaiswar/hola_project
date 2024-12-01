@@ -1,10 +1,11 @@
 from django.urls import path
 from .views import UserProfileView, EditProfileView, PublicProfileView, ShareProfileView, FollowUserView, HomepageView
-from .views import FollowersListView, FollowingListView, UserListView,UserSearchView
+from .views import FollowersListView, FollowingListView, UserListView,UserSearchView,LoginActivityListView
 from posts.views import UserPostsView
 
 urlpatterns = [
     path('profile/', UserProfileView.as_view(), name='user-profile'),
+    path('login-activity/', LoginActivityListView.as_view(), name='login_activity'),
     path('search/', UserSearchView.as_view(), name='user-search'),
     path('homepage/', HomepageView.as_view(), name='homepage'),
     path('follow/<int:user_id>/', FollowUserView.as_view(), name='follow_user'),

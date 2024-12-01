@@ -9,9 +9,9 @@ from posts.serializers import PostSerializer
 from django.urls import reverse
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter
-from .serializers import UserListSerializer
+from .serializers import UserListSerializer,LoginActivitySerializer
 from django.db.models import Q
-from accounts.models import CustomUser
+from accounts.models import CustomUser,LoginActivity
 
 
 
@@ -188,3 +188,11 @@ class UserSearchView(APIView):
         # Serialize the matched users' public profile data
         user_data = UserProfileSerializer(users, many=True).data
         return Response({"results": user_data})
+    
+class LoginActivityListView(ListAPIView):
+    serializer_class = LoginActivitySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Return only the login activities of the logged-in user
+        return LoginActivity.objects.filter(user=self.request.user).order_by('-timestamp')
