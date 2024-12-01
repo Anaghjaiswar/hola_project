@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
 User = get_user_model()
 
 class Post(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField()
-    media = models.FileField(upload_to="posts/media/", null=True, blank=True)
+    media = CloudinaryField("media", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_public = models.BooleanField(default=True)

@@ -32,8 +32,8 @@ DEBUG = config("DEBUG", cast=bool)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 
@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'channels',
     'conversation',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 
@@ -77,7 +79,6 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',  # Google OAuth2 backend
     'django.contrib.auth.backends.ModelBackend',  # Django's default authentication backend
 )
-
 
 
 
@@ -223,3 +224,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']  # Request email and prof
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']  # Include extra data
 SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'http://127.0.0.1:8000/api/auth/complete/google/'  # Match with your Django callback URL
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL', 'cloudinary://<API_KEY>:<API_SECRET>@<CLOUD_NAME>')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+MEDIA_URL = '/media/'
