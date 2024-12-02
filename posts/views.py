@@ -7,13 +7,15 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView
 from .serializers import PostSerializer, CommentSerializer
 from django.shortcuts import get_object_or_404
 from django.db.models import F
+from rest_framework.parsers import MultiPartParser, FormParser
 from accounts.models import CustomUser
 
 # Create a new post
 class PostCreateView(APIView):
     permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(created_by=request.user)
