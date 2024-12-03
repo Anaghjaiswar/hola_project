@@ -65,15 +65,28 @@ ASGI_APPLICATION = 'hola.asgi.application'
 
 load_dotenv()
 
+import os
+
+REDIS_URL = os.getenv("REDIS_URL")
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [os.getenv('REDIS_URL')],
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [REDIS_URL],
         },
     },
 }
-print(f"Redis URL: {os.getenv('REDIS_URL')}")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 
 # In settings.py
