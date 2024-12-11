@@ -48,9 +48,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
  
 
 class UserListSerializer(serializers.ModelSerializer):
+    profile_photo = serializers.ImageField(required=False)
     class Meta:
         model = User
-        fields = ['id', 'username', 'full_name', 'bio']
+        fields = ['id', 'username', 'full_name', 'bio','profile_photo']
 
 class LoginActivitySerializer(serializers.ModelSerializer):
     class Meta:

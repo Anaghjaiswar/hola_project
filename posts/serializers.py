@@ -4,10 +4,12 @@ from .models import Post, Like, Comment, CommentLike
 class PostSerializer(serializers.ModelSerializer):
     created_by = serializers.CharField(source='created_by.full_name', read_only=True)
     likes_count = serializers.IntegerField(read_only=True)
+    profile_photo = serializers.ImageField(source='created_by.profile_photo', required=False)
+
 
     class Meta:
         model = Post
-        fields = ['id', 'created_by', 'content', 'media', 'created_at', 'updated_at', 'is_public', 'likes_count', 'comments_count', 'tags']
+        fields = ['id', 'created_by', 'content', 'media', 'created_at', 'updated_at', 'is_public', 'likes_count', 'comments_count', 'tags','profile_photo']
         read_only_fields = ['id', 'created_by', 'created_at', 'updated_at', 'likes_count', 'comments_count']
 
     def validate_content(self, value):
