@@ -4,8 +4,7 @@ from .models import Post, Like, Comment, CommentLike
 class PostSerializer(serializers.ModelSerializer):
     created_by = serializers.CharField(source='created_by.full_name', read_only=True)
     likes_count = serializers.IntegerField(read_only=True)
-    # comments_count = serializers.IntegerField(read_only=True)
-    media = serializers.SerializerMethodField() 
+
     class Meta:
         model = Post
         fields = ['id', 'created_by', 'content', 'media', 'created_at', 'updated_at', 'is_public', 'likes_count', 'comments_count', 'tags']
@@ -16,10 +15,6 @@ class PostSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Content cannot be empty.")
         return value
     
-    def get_media(self, obj):
-        if obj.media:
-            return obj.media.url  # Return the media file's URL
-        return None
 
 
 class LikeSerializer(serializers.ModelSerializer):

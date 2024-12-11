@@ -16,6 +16,7 @@ import os
 import dj_database_url
 import environ
 from dotenv import load_dotenv
+import redis
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -65,15 +66,11 @@ ASGI_APPLICATION = 'hola.asgi.application'
 
 load_dotenv()
 
-import os
-
-REDIS_URL = os.getenv("REDIS_URL")
-
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [REDIS_URL],
+            "hosts": [config('REDIS_URL')],  # Render's Redis URL
         },
     },
 }
@@ -81,12 +78,15 @@ CHANNEL_LAYERS = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": REDIS_URL,
+        "LOCATION": config('REDIS_URL'),  # Render's Redis URL
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "IGNORE_EXCEPTIONS": True,  # Avoid breaking if Redis is unavailable
         },
-    }
+    },
 }
+# print(os.getenv('REDIS_URL'))
+
 
 
 # In settings.py
@@ -220,7 +220,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/kolkata'
 
 USE_I18N = True
 
