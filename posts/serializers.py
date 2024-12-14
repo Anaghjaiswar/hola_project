@@ -5,6 +5,7 @@ class PostSerializer(serializers.ModelSerializer):
     created_by = serializers.CharField(source='created_by.full_name', read_only=True)
     likes_count = serializers.IntegerField(read_only=True)
     profile_photo = serializers.ImageField(source='created_by.profile_photo', required=False)
+    media = serializers.FileField()
 
 
     class Meta:

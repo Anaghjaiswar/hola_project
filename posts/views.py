@@ -13,7 +13,7 @@ from accounts.models import CustomUser
 # Create a new post
 class PostCreateView(APIView):
     permission_classes = [IsAuthenticated]
-    parser_classes = (MultiPartParser, FormParser)
+    # parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
         serializer = PostSerializer(data=request.data)
