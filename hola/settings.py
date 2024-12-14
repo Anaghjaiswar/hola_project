@@ -66,25 +66,19 @@ ASGI_APPLICATION = 'hola.asgi.application'
 
 load_dotenv()
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [config('REDIS_URL')],  # Render's Redis URL
-        },
-    },
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         # 'LOCATION': 'redis://red-ct7cte23esus73bq64dg:6379',  # Use the appropriate Redis server URL
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": config('REDIS_URL'),  # Render's Redis URL
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,  # Avoid breaking if Redis is unavailable
-        },
-    },
-}
+# Optional: This is to ensure Django sessions are stored in Redis
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 # print(os.getenv('REDIS_URL'))
 
 
@@ -188,12 +182,12 @@ environ.Env.read_env()
 
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'  # This is the literal value 'apikey'
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD') 
-DEFAULT_FROM_EMAIL = 'jaiswaranagh@gmail.com'  # Use your verified email address
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  
 
 
 # Password validation

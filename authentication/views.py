@@ -128,34 +128,3 @@ class ResetPasswordView(APIView):
         reset_otp.delete()
 
         return Response({"message": "Password successfully reset."}, status=status.HTTP_200_OK)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-@login_required
-def test_redirect_view(request):
-    return HttpResponse(f"Welcome, {request.user.email}! You are logged in.")
